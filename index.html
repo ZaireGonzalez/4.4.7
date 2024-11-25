@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #eafaf1;
+    }
+
+    header {
+      background-color: #006400;
+      color: white;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      background-color: #004d00;
+      width: 250px;
+      padding-top: 20px;
+      position: fixed;
+      height: 100%;
+      top: 0;
+      left: 0;
+      color: white;
+      padding-left: 20px;
+    }
+
+    .sidebar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 10px 0;
+      display: block;
+      border-bottom: 1px solid #004d00;
+    }
+
+    .sidebar a:hover {
+      background-color: #006400;
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .btn {
+      background-color: #007d3c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .btn:hover {
+      background-color: #005d29;
+    }
+
+    .btn-logout {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .btn-logout:hover {
+      background-color: #388e3c;
+    }
+
+    .module-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .module-table th, .module-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .module-table th {
+      background-color: #006400;
+      color: white;
+    }
+
+    .module-table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .module-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .module-table-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .module-table-container.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de inicio -->
+  <header>
+    Panel de Control
+  </header>
+
+  <!-- Sidebar -->
+  <div class="container">
+    <div class="sidebar">
+      <a href="#" onclick="showModule('ventas')">Ventas</a>
+      <a href="#" onclick="showModule('anulaciones')">Anulaciones</a>
+      <a href="#" onclick="showModule('cierres')">Cierres</a>
+      <a href="#" onclick="showModule('proveedores')">Proveedores</a>
+      <a href="#" onclick="showModule('peticiones')">Peticiones</a>
+      <a href="#" onclick="showModule('quejas')">Quejas y Reclamos</a>
+      <a href="#" onclick="showModule('configuraciones')">Configuraciones</a>
+      <a href="#" onclick="showModule('inventarios')">Inventarios</a>
+    </div>
+
+    <!-- Contenido -->
+    <div class="content">
+      <!-- Botón de cierre de sesión -->
+      <button class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+
+      <!-- Módulos -->
+      <div id="ventas" class="module-table-container">
+        <h2>Ventas</h2>
+        <table class="module-table">
+          <tr><th>Factura</th><th>Fecha</th><th>Total</th><th>Cliente</th></tr>
+          <tr><td>001</td><td>2024-11-25</td><td>$500</td><td>Juan Pérez</td></tr>
+          <tr><td>002</td><td>2024-11-26</td><td>$750</td><td>María Gómez</td></tr>
+        </table>
+      </div>
+
+      <div id="anulaciones" class="module-table-container">
+        <h2>Anulaciones</h2>
+        <table class="module-table">
+          <tr><th>Factura</th><th>Fecha</th><th>Motivo</th></tr>
+          <tr><td>001</td><td>2024-11-25</td><td>Pago duplicado</td></tr>
+          <tr><td>003</td><td>2024-11-27</td><td>Producto defectuoso</td></tr>
+        </table>
+      </div>
+
+      <div id="cierres" class="module-table-container">
+        <h2>Cierres</h2>
+        <table class="module-table">
+          <tr><th>Fecha</th><th>Total</th><th>Responsable</th></tr>
+          <tr><td>2024-11-25</td><td>$1,500</td><td>Ana López</td></tr>
+          <tr><td>2024-11-26</td><td>$2,000</td><td>Carlos Martínez</td></tr>
+        </table>
+      </div>
+
+      <div id="proveedores" class="module-table-container">
+        <h2>Proveedores</h2>
+        <table class="module-table">
+          <tr><th>Proveedor</th><th>Producto</th><th>Fecha</th></tr>
+          <tr><td>Proveedor A</td><td>Materiales</td><td>2024-11-20</td></tr>
+          <tr><td>Proveedor B</td><td>Equipos</td><td>2024-11-22</td></tr>
+        </table>
+      </div>
+
+      <div id="peticiones" class="module-table-container">
+        <h2>Peticiones</h2>
+        <table class="module-table">
+          <tr><th>Petición</th><th>Cliente</th><th>Fecha</th></tr>
+          <tr><td>Pedido urgente</td><td>Juan Pérez</td><td>2024-11-25</td></tr>
+          <tr><td>Reemplazo</td><td>María Gómez</td><td>2024-11-26</td></tr>
+        </table>
+      </div>
+
+      <div id="quejas" class="module-table-container">
+        <h2>Quejas y Reclamos</h2>
+        <table class="module-table">
+          <tr><th>Queja</th><th>Cliente</th><th>Fecha</th></tr>
+          <tr><td>Producto defectuoso</td><td>Juan Pérez</td><td>2024-11-25</td></tr>
+          <tr><td>Servicio lento</td><td>María Gómez</td><td>2024-11-26</td></tr>
+        </table>
+      </div>
+
+      <div id="configuraciones" class="module-table-container">
+        <h2>Configuraciones</h2>
+        <table class="module-table">
+          <tr><th>Ajuste</th><th>Valor</th><th>Fecha</th></tr>
+          <tr><td>Tarifa</td><td>10%</td><td>2024-11-25</td></tr>
+          <tr><td>Impuestos</td><td>IVA 19%</td><td>2024-11-26</td></tr>
+        </table>
+      </div>
+
+      <div id="inventarios" class="module-table-container">
+        <h2>Inventarios</h2>
+        <table class="module-table">
+          <tr><th>Producto</th><th>Cantidad</th><th>Precio</th></tr>
+          <tr><td>Producto A</td><td>100</td><td>$20</td></tr>
+          <tr><td>Producto B</td><td>150</td><td>$35</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showModule(module) {
+      // Oculta todos los módulos
+      const modules = document.querySelectorAll('.module-table-container');
+      modules.forEach(m => m.classList.remove('active'));
+
+      // Muestra el módulo seleccionado
+      const selectedModule = document.getElementById(module);
+      selectedModule.classList.add('active');
+    }
+
+    function cerrarSesion() {
+      alert('Sesión cerrada');
+      window.location.reload();  // Para simular cierre de sesión
+    }
+  </script>
+</body>
+</html>
